@@ -1,0 +1,56 @@
+<head>
+    <title>Meteor.js Sample Todo List App</title>
+</head>
+ 
+<body>
+    <div class="container">
+        <header>
+            <h1>Todo List</h1>
+        </header>
+
+        <form class="new-task">
+            <input type="text" name="text" placeholder="Type to add new tasks" />
+        </form>
+
+        <br>
+ 
+        <ul>
+            <!-- Iterate over the tasks helper defined in the .js file -->
+            {{ #each tasks }}  <!-- Or: {{ #each helperKey }} -->
+                <!-- Calls template defined below to display list of tasks -->
+                {{ > task }}  <!-- How Meteor templates are called: {{ > templateName }} -->
+            {{ else }}
+                <li>No tasks yet.</li>
+            {{ /each }}
+        </ul>
+    </div>
+</body>
+
+<template name="task">
+    <!-- Needed to define templates since it is the one used for accessing elements in a collection -->
+    <li>{{ text }}</li> <!-- {{ attribute }} --> 
+</template>
+
+<template name="taskwithcheckanddelete">
+    <!-- 'checked' is an attribute defined in the taskwithoptions Template in our .js file -->
+    <!-- Calling a certain attribute of a document: {{ attribute }} -->
+    <li class="{{ #if checked }}checked{{ /if }}">
+        <button class="delete">Delete</button>
+        <input type="checkbox" checked="{{ checked }}" class="toggle-checked" />
+        <span class="text">{{ text }}</span>
+    </li>
+</template>
+
+<template name="taskwithoptions">
+    <!-- 'checked' is an attribute defined in the taskwithoptions Template in our .js file -->
+    <!-- Calling a certain attribute of a document: {{ attribute }} -->
+    <li class="{{ #if checked }}checked{{ /if }}">
+        <form class="edit-task">
+            <input type="checkbox" checked="{{ checked }}" class="toggle-checked" />
+            <input type="text" name="text" value="{{ text }}" hidden="true" />
+            <span class="text">{{ text }}</span>
+            <button class="delete" type="button">Delete</button>
+            <button class="edit" type="button">Edit</button>
+        </form>
+    </li>
+</template>
